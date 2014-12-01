@@ -8,7 +8,7 @@ AUTHFILE='/tmp/auth'
 SHARE='fes-nemis'
 ADDRESS = 'cifs-01.nas-01-ext.pld2.root4.net'
 PORT = 445
-env = CIFSConfig.new(ADDRESS, PORT,SHARE,AUTHFILE)
+env = Fbcifs::CIFS.new(ADDRESS, PORT,SHARE,AUTHFILE)
 
 describe Command, '#smb' do
   class SomeCommand < Command
@@ -60,15 +60,20 @@ describe CompositeCommand, '#action' do
   end
 end
 
-describe CIFSOperator do
-  operator = CIFSOperator.new(nil,CIFSUriParser.new,env)
+describe Fbcifs::Operator do
   describe '#goto' do
     it "should return array of commands to navigate to given dir" do
+      operator = Fbcifs::Operator.new(env)
+      expect(operator.goto('/a/b/c/d/e/f.txt').map{|c| c.action}).to contain_exactly "cd \\\"b\\\"\n", "cd \\\"c\\\"\n", "cd \\\"d\\\"\n", "cd \\\"e\\\"\n"
+    end
+    it "should return array of commands to navigate to given dir using the non-default parameters" do
+      operator = Fbcifs::Operator.new(env,uri_parser=Fbcifs::UriParser.new,handler=Fbcifs::MessageHandler.new(ADDRESS))
       expect(operator.goto('/a/b/c/d/e/f.txt').map{|c| c.action}).to contain_exactly "cd \\\"b\\\"\n", "cd \\\"c\\\"\n", "cd \\\"d\\\"\n", "cd \\\"e\\\"\n"
     end
   end
   describe '#remove' do
     it "should return array of commands to remove file from a given dir" do
+      operator = Fbcifs::Operator.new(env)
       expect(operator.remove('/a/b/c/d/e/f.txt').map{|c| c.action}).to contain_exactly "cd \\\"b\\\"\n", "cd \\\"c\\\"\n", "cd \\\"d\\\"\n", "cd \\\"e\\\"\n", "rm \\\"f.txt\\\"\n"
     end
   end

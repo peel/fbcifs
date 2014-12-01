@@ -1,9 +1,9 @@
 require 'rspec'
 require_relative '../lib/fbcifs/uri_parser'
 
-describe CIFSUriParser do
+describe Fbcifs::UriParser do
   uri = '/aa/bb/cc/dd/ee.txt'
-  parser=CIFSUriParser.new
+  parser=Fbcifs::UriParser.new
   share_idx=1
   filename_idx=-1
 

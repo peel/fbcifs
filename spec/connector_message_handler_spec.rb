@@ -1,8 +1,8 @@
 require 'rspec'
 require 'rspec-parameterized'
-require_relative '../lib/fbcifs/connector_message_handler'
+require_relative '../lib/fbcifs/message_handler'
 
-describe ConnectorMessageHandler, '#handle_message' do
+describe Fbcifs::MessageHandler, '#handle_message' do
   address = 'cifs-01.nas-01-int.pld2.root4.net'
   path = '/lorem/ipsum'
   file = 'dolor'
@@ -29,7 +29,7 @@ describe ConnectorMessageHandler, '#handle_message' do
 
   with_them do
      it 'given status message of smb connection failure should retry action on a file ' do
-      handler = ConnectorMessageHandler.new(address,path,file)
+      handler = Fbcifs::MessageHandler.new(address)
       expect{handler.handle_message(message)}.to raise_error(response)
     end
   end

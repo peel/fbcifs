@@ -1,5 +1,4 @@
 require_relative "fbcifs/version"
-
-module Fbcifs
-  # Your code goes here...
-end
+require_relative "fbcifs/operator"
+require_relative "fbcifs/message_handler"
+require_relative "fbcifs/uri_parser"
