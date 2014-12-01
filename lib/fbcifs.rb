@@ -1,5 +1,5 @@
 require "fbcifs/version"
 
-module Fbcifs
+module FbCifs
   # Your code goes here...
 end
