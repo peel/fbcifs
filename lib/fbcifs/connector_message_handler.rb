@@ -1,5 +1,3 @@
-require_relative '../common'
-
 class ConnectorMessageHandler
   attr_accessor :address,:path,:file
 

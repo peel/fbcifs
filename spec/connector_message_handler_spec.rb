@@ -1,4 +1,5 @@
 require 'rspec'
+require 'rspec-parameterized'
 require_relative '../lib/fbcifs/connector_message_handler'
 
 describe ConnectorMessageHandler, '#handle_message' do

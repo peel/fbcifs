@@ -1,5 +1,5 @@
-require "fbcifs/version"
+require_relative "fbcifs/version"
 
-module FbCifs
+module Fbcifs
   # Your code goes here...
 end

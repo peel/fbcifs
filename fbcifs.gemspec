@@ -5,7 +5,7 @@ require 'fbcifs/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "fbcifs"
-  spec.version       = FbCifs::VERSION
+  spec.version       = Fbcifs::VERSION
   spec.authors       = ["Piotr Limanowski - m095445"]
   spec.email         = ["Piotr.Limanowski@nordea.com"]
   spec.description   = %q{A CIFS connectivity wrapper gem for filebroker. Mostly the code pulled out of the common.rb from the original ruby filebroker.}
