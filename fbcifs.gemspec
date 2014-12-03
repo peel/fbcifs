@@ -23,4 +23,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "rspec-parameterized"
   spec.add_development_dependency "rake-rspec"
+  spec.add_development_dependency "codeclimate-test-reporter"
 end
