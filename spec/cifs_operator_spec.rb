@@ -67,7 +67,7 @@ describe Fbcifs::Operator do
       expect(operator.goto('/a/b/c/d/e/f.txt').map{|c| c.action}).to contain_exactly "cd \\\"b\\\"\n", "cd \\\"c\\\"\n", "cd \\\"d\\\"\n", "cd \\\"e\\\"\n"
     end
     it "should return array of commands to navigate to given dir using the non-default parameters" do
-      operator = Fbcifs::Operator.new(env,uri_parser=Fbcifs::UriParser.new,handler=Fbcifs::MessageHandler.new(ADDRESS))
+      operator = Fbcifs::Operator.new(env,uri_parser=Fbcifs::UriParser.new,handler=Fbcifs::MessageHandler)
       expect(operator.goto('/a/b/c/d/e/f.txt').map{|c| c.action}).to contain_exactly "cd \\\"b\\\"\n", "cd \\\"c\\\"\n", "cd \\\"d\\\"\n", "cd \\\"e\\\"\n"
     end
   end
