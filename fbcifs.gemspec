@@ -6,11 +6,11 @@ require 'fbcifs/version'
 Gem::Specification.new do |spec|
   spec.name          = "fbcifs"
   spec.version       = Fbcifs::VERSION
-  spec.authors       = ["Piotr Limanowski - m095445"]
-  spec.email         = ["Piotr.Limanowski@nordea.com"]
-  spec.description   = %q{A CIFS connectivity wrapper gem for filebroker. Mostly the code pulled out of the common.rb from the original ruby filebroker.}
-  spec.summary       = %q{A CIFS connectivity wrapper gem for filebroker.}
-  spec.homepage      = "http://10.0.26.75/gitbucket/filebroker/fbcifs"
+  spec.authors       = ["Piotr Limanowski"]
+  spec.email         = ["plimanowski@gmail.com"]
+  spec.description   = %q{A CIFS connectivity wrapper gem.}
+  spec.summary       = %q{A CIFS connectivity wrapper gem.}
+  spec.homepage      = "http://github.com/peel/fbcifs"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
