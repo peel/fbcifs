@@ -1,53 +1,29 @@
 module Fbcifs
   class MessageHandler
-    attr_accessor :address
-    def initialize(address)
-      @address=address
-    end
 
     def handle_message(message)
-      raise AuthenticationFailed, "login refused by '#{address}'"            if message =~ /NT_STATUS_LOGON_FAILURE/
-      raise AuthenticationFailed, "login refused by '#{address}'"            if message =~ /NT_STATUS_ACCESS_DENIED/
-      raise HostUnreachable, "host unreachable '#{address}'"                 if message =~ /NT_STATUS_UNSUCCESSFUL/
-      raise HostUnreachable, "host unreachable '#{address}'"                 if message =~ /NT_STATUS_HOST_UNREACHABLE/
-      raise BadNetworkName, "bad network name '#{address}'"                  if message =~ /NT_STATUS_BAD_NETWORK_NAME/
-      raise NetworkUnreachable, "network unreachable '#{address}'"           if message =~ /NT_STATUS_NETWORK_UNREACHABLE/
-      raise ConnectionRefused, "connection refused by '#{address}'"          if message =~ /NT_STATUS_CONNECTION_REFUSED/
-      raise ConnectionRefused, "connection refused by '#{address}'"          if message =~ /Receiving SMB: Server \S+ stopped responding/
-      raise NoSuchFileOrDirectory, "cannot open file or directory '#{}'"  if message =~ /NT_STATUS_OBJECT_(NAME|PATH)_NOT_FOUND/
-      raise NoSuchFileOrDirectory, "cannot open file or directory '#{}'"  if message =~ /NT_STATUS_NO_SUCH_FILE/
-      raise PermissionDenied, "permission denied for file '#{}'"          if message =~ /NT_STATUS_ACCESS_DENIED/
-      raise PermissionDenied, "permission denied for file '#{}'"          if message =~ /NT_STATUS_CANNOT_DELETE/
-      raise PermissionDenied, "permission denied for file '#{}'"          if message =~ /NT_STATUS_ACCOUNT_DISABLED/
-      raise PermissionDenied, "permission denied for file '#{}'"          if message =~ /NT_STATUS_ACCOUNT_LOCKED/
-      raise PermissionDenied, "unknown error '#{message}'"                        if message =~ /session setup failed/
-      raise PermissionDenied, "permission denied for file '#{}'"          if message =~ /not a directory/
+      raise AuthenticationFailed if message =~ /(NT_STATUS_LOGON_FAILURE)|(NT_STATUS_ACCESS_DENIED)/
+      raise HostUnreachable if message =~ /(NT_STATUS_UNSUCCESSFUL)|(NT_STATUS_HOST_UNREACHABLE)/
+      raise BadNetworkName if message =~ /NT_STATUS_BAD_NETWORK_NAME/
+      raise NetworkUnreachable if message =~ /NT_STATUS_NETWORK_UNREACHABLE/
+      raise ConnectionRefused if message =~ /(NT_STATUS_CONNECTION_REFUSED)|(Receiving SMB: Server \S+ stopped responding)/
+      raise NoSuchFileOrDirectory if message =~ /(NT_STATUS_OBJECT_(NAME|PATH)_NOT_FOUND)|(NT_STATUS_NO_SUCH_FILE)/
+      raise PermissionDenied if message =~ /(NT_STATUS_ACCESS_DENIED)|(NT_STATUS_CANNOT_DELETE)|(NT_STATUS_ACCOUNT_DISABLED)|(NT_STATUS_ACCOUNT_LOCKED)|(not a directory)|(session setup failed)/
     end
   end
 
+  class AuthenticationFailed < StandardError; end
+  class HostUnreachable < StandardError; end
+  class NetworkUnreachable < StandardError; end
+  class BadNetworkName < StandardError; end
+  class ConnectionRefused < StandardError; end
+  class ConnectionBroken < StandardError; end
+  class ConnectionRefused < StandardError; end
+  class NoSuchFileOrDirectory < StandardError; end
+  class ErrorOpeningLocalFile < StandardError; end
+  class PermissionDenied < StandardError; end
+  class FileAlreadyExist < StandardError; end
+  class NoSpaceLeft < StandardError; end
+
 end
-  #Errors
-  class AuthenticationFailed < StandardError
-  end
-  class HostUnreachable < StandardError
-  end
-  class NetworkUnreachable < StandardError
-  end
-  class BadNetworkName < StandardError
-  end
-  class ConnectionRefused < StandardError
-  end
-  class ConnectionBroken < StandardError
-  end
-  class ConnectionRefused < StandardError
-  end
-  class NoSuchFileOrDirectory < StandardError
-  end
-  class ErrorOpeningLocalFile < StandardError
-  end
-  class PermissionDenied < StandardError
-  end
-  class FileAlreadyExist < StandardError
-  end
-  class NoSpaceLeft < StandardError
-  end
+

@@ -3,7 +3,7 @@ require_relative 'commands/commands'
 module Fbcifs
   class Operator
     attr_reader :handler,:uri_parser,:server_params
-    def initialize(server_params,uri_parser=self.parser,handler=self.handler(server_params))
+    def initialize(server_params,uri_parser=Fbcifs::UriParser.new,handler=Fbcifs::MessageHandler.new)
       @handler=handler
       @uri_parser=uri_parser
       @server_params=server_params
@@ -22,12 +22,6 @@ module Fbcifs
         handler=handler(server_params)
         handler.handle_message(out)
       }
-    end
-    def parser
-      Fbcifs::UriParser.new
-    end
-    def handler(server_params)
-      Fbcifs::MessageHandler.new(server_params.address)
     end
   end
 end
