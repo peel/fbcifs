@@ -65,12 +65,22 @@ describe ListDir, "#action" do
 end
 describe MakeDir, "#action" do
   it "should list current directory" do
-    ls = MakeDir.new(env,'abc')
-    expect(ls.action).to eq "md \\\"abc\\\"\n"
+    md = MakeDir.new(env,'abc')
+    expect(md.action).to eq "md \\\"abc\\\"\n"
   end
   it "should build a smbclient-wrapper command" do
-    ls = MakeDir.new(env,'abc')
-    expect(ls.smb).to eq "echo \"md \\\"abc\\\"\n\" | smbclient -E -g -A #{AUTHFILE} -p #{PORT} //#{ADDRESS}/#{SHARE} 2>&1"
+    md = MakeDir.new(env,'abc')
+    expect(md.smb).to eq "echo \"md \\\"abc\\\"\n\" | smbclient -E -g -A #{AUTHFILE} -p #{PORT} //#{ADDRESS}/#{SHARE} 2>&1"
+  end
+end
+describe RemoveDir, "#action" do
+  it "should list current directory" do
+    rmdir = RemoveDir.new(env,'abc')
+    expect(rmdir.action).to eq "rmdir \\\"abc\\\"\n"
+  end
+  it "should build a smbclient-wrapper command" do
+    rmdir = RemoveDir.new(env,'abc')
+    expect(rmdir.smb).to eq "echo \"rmdir \\\"abc\\\"\n\" | smbclient -E -g -A #{AUTHFILE} -p #{PORT} //#{ADDRESS}/#{SHARE} 2>&1"
   end
 end
 

@@ -6,6 +6,6 @@ class MakeDir < Command
     @dir_name=dir_name
   end
   def action
-    "md \\\"abc\\\"\n"
+    "md \\\"#{dir_name}\\\"\n"
   end
 end
