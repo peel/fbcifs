@@ -63,6 +63,17 @@ describe ListDir, "#action" do
     expect(ls.smb).to eq "echo \"ls \\n\" | smbclient -E -g -A #{AUTHFILE} -p #{PORT} //#{ADDRESS}/#{SHARE} 2>&1"
   end
 end
+describe MakeDir, "#action" do
+  it "should list current directory" do
+    ls = MakeDir.new(env,'abc')
+    expect(ls.action).to eq "md \\\"abc\\\"\n"
+  end
+  it "should build a smbclient-wrapper command" do
+    ls = MakeDir.new(env,'abc')
+    expect(ls.smb).to eq "echo \"md \\\"abc\\\"\n\" | smbclient -E -g -A #{AUTHFILE} -p #{PORT} //#{ADDRESS}/#{SHARE} 2>&1"
+  end
+end
+
 describe CompositeCommand, '#action' do
   it "should return a composite command to navigate and remove file" do
     cd_a = GoToDir.new(env,'a')
