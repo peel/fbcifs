@@ -2,26 +2,29 @@ require_relative 'commands/commands'
 
 module Fbcifs
   class Operator
-    attr_reader :handler,:uri_parser,:server_params
-    def initialize(server_params,uri_parser=Fbcifs::UriParser.new,handler=Fbcifs::MessageHandler.new)
+    attr_reader :handler,:uri_parser,:credentials
+    def initialize(credentials,uri_parser=Fbcifs::UriParser.new,handler=Fbcifs::MessageHandler.new)
       @handler=handler
       @uri_parser=uri_parser
-      @server_params=server_params
+      @credentials=credentials
     end
     def goto(uri)
       directories = uri_parser.directories(uri)
-      directories.map{|dir| GoToDir.new(server_params,dir)}
+      directories.map{|dir| GoToDir.new(credentials,dir)}
     end
     def remove(file)
       filename = uri_parser.file(file)
       cmd = goto(file)
-      cmd << DeleteFile.new(server_params,filename)
+      cmd << DeleteFile.new(credentials,filename)
     end
     def execute(cmd)
+      credentials.make_credentials_file
       cmd.execute.each{|out|
-        handler=handler(server_params)
+        handler=handler(credentials)
         handler.handle_message(out)
       }
+      credentials.drop_credentials_file
     end
   end
+  class FileOperationException < Exception; end
 end

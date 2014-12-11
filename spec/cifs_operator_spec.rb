@@ -4,11 +4,19 @@ require_relative '../lib/fbcifs/commands/commands'
 require_relative '../lib/fbcifs/uri_parser'
 require_relative '../lib/fbcifs/config'
 
-AUTHFILE='/tmp/auth'
+AUTHFILE="/tmp/12345678901234567890123456789012.pwd"
+module Fbcifs
+  class Credentials
+    def authfile
+      AUTHFILE
+    end
+  end
+end
+CREDENTIALS = Fbcifs::Credentials.new('login','password')
 SHARE='fes-nemis'
 ADDRESS = 'cifs-01.nas-01-ext.pld2.root4.net'
 PORT = 445
-env = Fbcifs::CIFS.new(ADDRESS, PORT,SHARE,AUTHFILE)
+env = Fbcifs::CIFS.new(ADDRESS, PORT,SHARE,CREDENTIALS)
 
 describe Command, '#smb' do
   class SomeCommand < Command
@@ -18,7 +26,7 @@ describe Command, '#smb' do
   end
   it "should build a smbclient-wrapped command" do
     cmd = SomeCommand.new(env,nil)
-    expect(cmd.smb).to eq "echo \"lorem\n\" | smbclient -E -g -A #{AUTHFILE} -p #{PORT} //#{ADDRESS}/#{SHARE} 2>&1"
+    expect(cmd.smb).to match "echo \"lorem\n\" | smbclient -E -g -A #{AUTHFILE} -p #{PORT} //#{ADDRESS}/#{SHARE} 2>&1"
   end
 end
 describe GoToDir, '#action' do
