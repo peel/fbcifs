@@ -83,6 +83,26 @@ describe RemoveDir, "#action" do
     expect(rmdir.smb).to eq "echo \"rmdir \\\"abc\\\"\n\" | smbclient -E -g -A #{AUTHFILE} -p #{PORT} //#{ADDRESS}/#{SHARE} 2>&1"
   end
 end
+describe PutFile, "#action" do
+  it "should list current directory" do
+    put = PutFile.new(env,'abc.txt')
+    expect(put.action).to eq "put \\\"abc.txt\\\"\n"
+  end
+  it "should build a smbclient-wrapper command" do
+    put = PutFile.new(env,'abc.txt')
+    expect(put.smb).to eq "echo \"put \\\"abc.txt\\\"\n\" | smbclient -E -g -A #{AUTHFILE} -p #{PORT} //#{ADDRESS}/#{SHARE} 2>&1"
+  end
+end
+describe GetFile, "#action" do
+  it "should list current directory" do
+    get = GetFile.new(env,'abc.txt')
+    expect(get.action).to eq "get \\\"abc.txt\\\"\n"
+  end
+  it "should build a smbclient-wrapper command" do
+    get = GetFile.new(env,'abc.txt')
+    expect(get.smb).to eq "echo \"get \\\"abc.txt\\\"\n\" | smbclient -E -g -A #{AUTHFILE} -p #{PORT} //#{ADDRESS}/#{SHARE} 2>&1"
+  end
+end
 
 describe CompositeCommand, '#action' do
   it "should return a composite command to navigate and remove file" do
