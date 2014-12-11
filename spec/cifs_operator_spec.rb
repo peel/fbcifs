@@ -53,6 +53,16 @@ describe DeleteFile, '#action' do
     expect(rm.smb).to eq "echo \"rm \\\"f.txt\\\"\n\" | smbclient -E -g -A #{AUTHFILE} -p #{PORT} //#{ADDRESS}/#{SHARE} 2>&1"
   end
 end
+describe ListDir, "#action" do
+  it "should list current directory" do
+    ls = ListDir.new(env)
+    expect(ls.action).to eq "ls \\n"
+  end
+  it "should build a smbclient-wrapper command" do
+    ls = ListDir.new(env)
+    expect(ls.smb).to eq "echo \"ls \\n\" | smbclient -E -g -A #{AUTHFILE} -p #{PORT} //#{ADDRESS}/#{SHARE} 2>&1"
+  end
+end
 describe CompositeCommand, '#action' do
   it "should return a composite command to navigate and remove file" do
     cd_a = GoToDir.new(env,'a')
